@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nidhisakh - Intelligent Financial Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+      :root {
+        --primary: #1a365d;
+        --secondary: #2d7a7a;
+        --accent: #d4af37;
+        --background: #f8fafc;
+        --text: #2d3748;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--background);
+        color: var(--text);
+      }
+      .gradient-header {
+        background: linear-gradient(135deg, var(--primary), #0f2a4f);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+      }
+      .message-bubble {
+        border-radius: 1.5rem;
+        padding: 1.25rem 1.75rem;
+        max-width: 85%;
+        transition: all 0.3s ease;
+        animation: slideIn 0.3s ease-out;
+      }
+      .ai-bubble {
+        background: white;
+        border: 1px solid rgba(210, 214, 220, 0.3);
+        box-shadow: 0 2px 12px rgba(26, 54, 93, 0.08);
+      }
+      .user-bubble {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        box-shadow: 0 2px 12px rgba(26, 54, 93, 0.15);
+        margin-left: auto;
+      }
+      .tip-card {
+        background: white;
+        border: 1px solid rgba(210, 214, 220, 0.5);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .waveform {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .wave-bar {
+        width: 3px;
+        background: currentColor;
+        animation: wave 1.2s ease infinite;
+      }
+      .professional-text {
+        font-family: "Inter", sans-serif;
+        letter-spacing: -0.015em;
+      }
+      .hover-scale {
+        transition: transform 0.3s ease;
+      }
+      .hover-scale:hover {
+        transform: translateY(-2px);
+      }
+      .step-icon {
+        font-size: 2rem;
+        color: var(--primary);
+      }
+      .gold-accent {
+        color: var(--accent);
+      }
+      .animated-underline {
+        position: relative;
+        display: inline-block;
+      }
+      .animated-underline::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background: var(--accent);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+      .animated-underline:hover::after {
+        transform: scaleX(1);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="gradient-header shadow-xl">
+      <nav
+        class="container mx-auto px-4 py-4 flex items-center justify-between"
+      >
+        <div class="flex items-center space-x-4">
+          <div class="logo flex items-center space-x-3">
+            <div
+              class="w-10 h-10 bg-[var(--accent)] rounded-xl flex items-center justify-center"
+            >
+              <i class="bx bx-shield-alt-2 text-2xl text-white"></i>
+            </div>
+            <span class="text-white font-bold text-2xl professional-text"
+              >Nidhisakh</span
+            >
+          </div>
+        </div>
+        <div class="flex items-center space-x-6">
+          <button
+            id="start_voice"
+            class="bg-white/10 text-white rounded-xl px-4 py-2 hover:bg-white/20 transition-colors professional-text flex items-center space-x-2"
+          >
+            <i class="bx bx-microphone"></i>
+            <span>Start Voice</span>
+          </button>
+          <select
+            id="language_selector"
+            class="bg-white/10 text-white rounded-xl px-4 py-2 focus:outline-none hover:bg-white/20 transition-colors professional-text"
+          >
+            <option value="en-US">English</option>
+            <option value="hi-IN">हिन्दी</option>
+          </select>
+        </div>
+      </nav>
+    </header>
+    <main class="container mx-auto px-4 py-8">
+      <div class="grid lg:grid-cols-3 gap-8">
+        <!-- Chat Section -->
+        <div class="lg:col-span-2">
+          <div class="glass-panel rounded-2xl shadow-xl p-6">
+            <div class="flex items-center justify-between mb-6">
+              <h1 class="text-2xl font-bold professional-text">
+                <span class="gold-accent">AI-Powered</span> Financial Guidance
+              </h1>
+              <div class="flex items-center space-x-2 text-[var(--secondary)]">
+                <div
+                  class="w-2.5 h-2.5 bg-[var(--secondary)] rounded-full animate-pulse"
+                ></div>
+                <span class="text-sm font-medium professional-text"
+                  >Active Session</span
+                >
+              </div>
+            </div>
+            <div
+              id="chat"
+              class="h-[550px] overflow-y-auto space-y-4 mb-6 pr-2 custom-scroll"
+            >
+              <div class="message-bubble ai-bubble">
+                <p class="text-[var(--text)] professional-text">
+                  Welcome to Nidhisakh! How can I assist you with financial
+                  planning today?
+                </p>
+                <div
+                  class="absolute bottom-3 right-3 text-[var(--primary)] text-xs"
+                >
+                  <i class="bx bx-bot"></i>
+                </div>
+              </div>
+            </div>
+            <div class="relative">
+              <div class="flex space-x-2">
+                <input
+                  id="user_message"
+                  type="text"
+                  class="w-full px-4 py-3 rounded-xl border border-[var(--primary)]/20 focus:ring-2 focus:ring-[var(--accent)] focus:border-[var(--accent)] placeholder-[var(--text)]/50 transition professional-text"
+                  placeholder="Ask about investments, loans, or savings..."
+                  onkeypress="if(event.key==='Enter')document.getElementById('send_message').click()"
+                />
+                <button
+                  id="send_message"
+                  class="px-6 bg-[var(--primary)] hover:bg-[var(--secondary)] text-white rounded-xl transition-colors flex items-center justify-center professional-text hover-scale"
+                >
+                  <i class="bx bx-send text-xl"></i>
+                </button>
+              </div>
+              <div class="flex items-center justify-between mt-4">
+                <div class="flex space-x-3">
+                  <button
+                    id="voice_input"
+                    class="p-2.5 bg-[var(--primary)]/5 hover:bg-[var(--primary)]/10 text-[var(--primary)] rounded-lg transition-colors relative hover-scale"
+                  >
+                    <i class="bx bx-microphone text-xl"></i>
+                    <div
+                      id="recording_indicator"
+                      class="hidden absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse"
+                    ></div>
+                  </button>
+                  <button
+                    id="toggle_tts"
+                    class="p-2.5 bg-[var(--primary)]/5 hover:bg-[var(--primary)]/10 text-[var(--primary)] rounded-lg transition-colors hover-scale"
+                  >
+                    <i class="bx bx-volume-full text-xl"></i>
+                  </button>
+                  <button
+                    id="stop_tts"
+                    class="p-2.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg transition-colors hover-scale"
+                  >
+                    <i class="bx bx-stop-circle text-xl"></i>
+                  </button>
+                </div>
+                <span class="text-sm text-[var(--text)]/70 professional-text"
+                  >Shift + Enter for new line</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Tips Section -->
+        <div class="space-y-6">
+          <div class="glass-panel rounded-2xl shadow-xl p-6">
+            <h2
+              class="text-lg font-semibold mb-4 text-[var(--primary)] professional-text"
+            >
+              Financial Toolkit
+            </h2>
+            <div class="space-y-4">
+              <div class="tip-card p-4 rounded-xl hover-scale">
+                <div class="flex items-center space-x-3">
+                  <div
+                    class="w-10 h-10 bg-[var(--accent)] rounded-lg flex items-center justify-center"
+                  >
+                    <i class="bx bx-line-chart text-white text-xl"></i>
+                  </div>
+                  <div>
+                    <h3
+                      class="font-semibold text-[var(--text)] professional-text"
+                    >
+                      Investment Strategy
+                    </h3>
+                    <p
+                      class="text-sm text-[var(--text)]/80 mt-1 professional-text"
+                    >
+                      Diversify portfolio across asset classes
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <!-- Add more tip cards here -->
+            </div>
+          </div>
+          <div
+            class="glass-panel bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] rounded-2xl shadow-xl p-6 text-white professional-text"
+          >
+            <h3 class="font-bold mb-3 text-lg">Quick Analysis</h3>
+            <p class="text-sm opacity-90 mb-4">
+              Get personalized financial insights in minutes
+            </p>
+            <a href="#" target="_blank">
+              <button
+                class="w-full py-3 bg-white/10 hover:bg-white/20 rounded-xl transition-all professional-text hover-scale"
+              >
+                Start Analysis
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Keep existing script section with same functionality -->
+    <script>
+      const chat = document.getElementById("chat");
+      const userMessageInput = document.getElementById("user_message");
+      const languageSelector = document.getElementById("language_selector");
+      let synth = window.speechSynthesis;
+      let recognition;
+      let isTTSEnabled = true;
+      let currentUtterance = null;
+      let isRecording = false;
+
+      // Message handling
+      function addMessage(text, sender = "ai") {
+        const messageDiv = document.createElement("div");
+        messageDiv.className = `message-bubble ${
+          sender === "ai" ? "ai-bubble" : "user-bubble"
+        }`;
+
+        const content = `
+              <p class="${
+                sender === "ai" ? "text-gray-700" : "text-white"
+              }">${text}</p>
+              <div class="absolute bottom-3 right-3 text-xs ${
+                sender === "ai" ? "text-indigo-400" : "text-indigo-100"
+              }">
+                  ${
+                    sender === "ai"
+                      ? '<i class="bx bx-bot"></i>'
+                      : '<i class="bx bx-user"></i>'
+                  }
+              </div>
+          `;
+
+        messageDiv.innerHTML = content;
+        chat.appendChild(messageDiv);
+        chat.scrollTop = chat.scrollHeight;
+      }
+
+      // Voice recognition handler
+      function handleVoiceInput() {
+        if (!("webkitSpeechRecognition" in window)) {
+          alert("Speech recognition is not supported in your browser");
+          return;
+        }
+
+        recognition = new (window.SpeechRecognition ||
+          window.webkitSpeechRecognition)();
+        recognition.lang = languageSelector.value;
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        if (!isRecording) {
+          // Start recording
+          recognition.start();
+          document
+            .getElementById("recording_indicator")
+            .classList.remove("hidden");
+          isRecording = true;
+        } else {
+          // Stop recording
+          recognition.stop();
+          document
+            .getElementById("recording_indicator")
+            .classList.add("hidden");
+          isRecording = false;
+        }
+
+        recognition.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          userMessageInput.value = transcript;
+          handleUserMessage();
+          document
+            .getElementById("recording_indicator")
+            .classList.add("hidden");
+          isRecording = false;
+        };
+
+        recognition.onerror = (event) => {
+          console.error("Speech recognition error:", event.error);
+          document
+            .getElementById("recording_indicator")
+            .classList.add("hidden");
+          isRecording = false;
+        };
+
+        recognition.onend = () => {
+          if (isRecording) {
+            recognition.start(); // Continue listening
+          }
+        };
+      }
+
+      // TTS controls
+      function toggleTTS() {
+        isTTSEnabled = !isTTSEnabled;
+        document.querySelector("#toggle_tts i").className = isTTSEnabled
+          ? "bx bx-volume-full text-2xl"
+          : "bx bx-volume-mute text-2xl";
+      }
+
+      function stopTTS() {
+        if (synth.speaking) {
+          synth.cancel();
+          document.querySelector("#toggle_tts i").classList.remove("bx-pulse");
+        }
+      }
+
+      function speak(text) {
+        if (!isTTSEnabled) return;
+        if (synth.speaking) synth.cancel();
+
+        currentUtterance = new SpeechSynthesisUtterance(text);
+        currentUtterance.lang = languageSelector.value;
+        currentUtterance.rate = 1;
+        currentUtterance.pitch = 1;
+
+        const ttsIcon = document.querySelector("#toggle_tts i");
+        ttsIcon.classList.add("bx-pulse");
+        currentUtterance.onend = () => ttsIcon.classList.remove("bx-pulse");
+
+        synth.speak(currentUtterance);
+      }
+
+      // Message submission
+      async function handleUserMessage() {
+        const userText = userMessageInput.value.trim();
+        if (!userText) return;
+
+        addMessage(userText, "user");
+        userMessageInput.value = "";
+
+        // Add loading indicator
+        const loadingDiv = document.createElement("div");
+        loadingDiv.className = "message-bubble ai-bubble";
+        loadingDiv.innerHTML = `
+              <div class="flex items-center space-x-2 text-indigo-400">
+                  <div class="waveform">
+                      <div class="wave-bar"></div>
+                      <div class="wave-bar" style="animation-delay: 0.2s"></div>
+                      <div class="wave-bar" style="animation-delay: 0.4s"></div>
+                  </div>
+                  <span>Analyzing...</span>
+              </div>
+          `;
+        chat.appendChild(loadingDiv);
+        chat.scrollTop = chat.scrollHeight;
+
+        try {
+          const response = await fetch("/send_message", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              message: userText,
+              language: languageSelector.value,
+              chat_type: "ai",
+            }),
+          });
+
+          const data = await response.json();
+          chat.removeChild(loadingDiv);
+          addMessage(data.response, "ai");
+          speak(data.response);
+        } catch (error) {
+          chat.removeChild(loadingDiv);
+          addMessage(
+            "Sorry, there was an error processing your request.",
+            "ai"
+          );
+          console.error("Error:", error);
+        }
+      }
+
+      // Event listeners
+      document
+        .getElementById("send_message")
+        .addEventListener("click", handleUserMessage);
+      document
+        .getElementById("voice_input")
+        .addEventListener("click", handleVoiceInput);
+      document
+        .getElementById("toggle_tts")
+        .addEventListener("click", toggleTTS);
+      document.getElementById("stop_tts").addEventListener("click", stopTTS);
+
+      // Initial setup
+      window.onload = () => {
+        speak(
+          "Welcome to Dhan AI! How can I assist you with your financial needs today?"
+        );
+      };
+
+      // Add event listener for the new button
+      document.getElementById("start_voice").addEventListener("click", () => {
+        isTTSEnabled = true;
+        document.querySelector("#toggle_tts i").className =
+          "bx bx-volume-full text-2xl";
+        speak(
+          "Hello! I'm DhanAI, your financial companion. How can I assist you today?"
+        );
+      });
+    </script>
+  </body>
+</html>
